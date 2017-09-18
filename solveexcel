@@ -1,0 +1,27 @@
+#-*- coding : utf-8 -*-
+import xlwings as xw
+import numpy as np
+import os
+app = xw.App(visible = True,add_book= False)
+wb = app.books.open(r'd:\Python\解方程\file1.xlsx')
+rng1 = input('leftstart\n')
+rng2 = input('leftend\n')
+rng3 = input('righstart\n')
+rng4 = input('rightend\n')
+sht = wb.sheets[0]
+"""
+可以这么控制
+print(np.array(sht.range('%s:%s' % (rng1,rng2)).value))
+"""
+list1 = np.array(sht.range('%s:%s' %(rng1,rng2)).value)
+list2 = np.array(sht.range('%s:%s' %(rng3,rng4)).value)
+x = np.linalg.solve(list1,list2)
+rng = sht.range('%s' % (rng3))
+rng = rng.offset(row_offset = 0, column_offset = 1)
+rng.options(transpose = True).value = x
+wb.save(r'd:\Python\解方程\file1.xlsx')
+wb.close()
+app.quit()
+
+
+

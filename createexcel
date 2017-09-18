@@ -1,0 +1,25 @@
+#-*- coding : utf-8 -*-
+import xlwings as xw
+import random
+import os
+filename = r'd:\Python\解方程\file1.xlsx'
+app = xw.App(visible=True,add_book=False)
+if os.path.exists(filename):
+    wb = app.books.open(filename)
+else:
+    wb = app.books.add()
+    wb.save(filename)
+sht = xw.sheets.active
+rng = sht.range('A1')
+for i in range(101):
+    l = []
+    for j in range(100):
+        l.append(random.randint(0,99))
+    rng.options(transpose = True).value = l
+    rng = rng.offset(row_offset = 0,column_offset = 1)
+wb.save(filename)
+wb.close()
+app.quit()
+
+
+
